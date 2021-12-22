@@ -1,19 +1,19 @@
 package org.generation.italy;
 
-import java.time.LocalDate;
+
 
 public class Country {
 	private int countryId;
 	private String name;
 	private int area;
-	private LocalDate nationalDay;
+	private java.sql.Date nationalDay;
 	private String countryCode;
 	private String countryCode2;
 	private int regionId;
 	
 	
 	
-	public Country (int countryId ,String name, int area ,LocalDate nationalDay ,  String countryCode , String countryCode2 , int regionId) {
+	public Country (int countryId ,String name, int area ,java.sql.Date nationalDay ,  String countryCode , String countryCode2 , int regionId) {
 		this.countryId = countryId;
 		this.name = name;
 		this.area=area;
@@ -61,13 +61,13 @@ public class Country {
 
 
 
-	public LocalDate getNationalDay() {
+	public java.sql.Date getNationalDay() {
 		return nationalDay;
 	}
 
 
 
-	public void setNationalDay(LocalDate nationalDay) {
+	public void setNationalDay(java.sql.Date nationalDay) {
 		this.nationalDay = nationalDay;
 	}
 
