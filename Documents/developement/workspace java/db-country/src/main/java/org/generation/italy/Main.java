@@ -17,7 +17,7 @@ public class Main {
 		try(Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
 			
 		
-		Country choosenCountry = CountryById (con,scan);
+		Country choosenCountry = selectCountryById (con,scan);
 		if(choosenCountry != null) {
 			System.out.println("You chose " +  choosenCountry.getName());
 		}
@@ -32,7 +32,7 @@ public class Main {
 		
 
 	}
-	private static Country CountryById (Connection con,Scanner scan) throws SQLException {
+	private static Country selectCountryById (Connection con,Scanner scan) throws SQLException {
 		Country choosenCountry = null;
 		System.out.println("Select country id: ");
 		int countryId = Integer.parseInt(scan.nextLine());
@@ -51,6 +51,23 @@ public class Main {
 		
 		
 		return choosenCountry; 
+	}
+	private static void updateCountry (Connection con,Country choosenCountry) throws SQLException {
+		
+		String sqlUpdated = "update countries\r\n"
+				+ "set country_id = ?,name = ? , area =?,national_day =?,country_code2 =?,country_code3 =?,region_id =?\r\n"
+				+ "where country_id =?;";
+		try(PreparedStatement psUpdateCountry = con.prepareStatement(sqlUpdated) ){
+			psUpdateCountry.setInt(1, choosenCountry.getCountryId());
+			psUpdateCountry.setString(2, choosenCountry.getName());			
+			psUpdateCountry.setInt(3, choosenCountry.getArea());
+			psUpdateCountry.setDate(4, choosenCountry.getNationalDay());
+			psUpdateCountry.setString(5, choosenCountry.getCountryCode());	
+			psUpdateCountry.setString(6, choosenCountry.getCountryCode2());	
+			psUpdateCountry.setInt(7, choosenCountry.getRegionId());
+			int result = psUpdateCountry.executeUpdate();
+			
+		}
 	}
 
 }
