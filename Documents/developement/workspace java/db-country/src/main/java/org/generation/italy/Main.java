@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
@@ -20,6 +22,18 @@ public class Main {
 		Country choosenCountry = selectCountryById (con,scan);
 		if(choosenCountry != null) {
 			System.out.println("You chose " +  choosenCountry.getName());
+			System.out.println("national day: " + choosenCountry.getNationalDay());
+			
+			if (choosenCountry.getNationalDay() == null) {
+				System.out.println("Insert the national day,please(d/MM/yyyy)");
+				String nationalDayInput = scan.nextLine();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+				  LocalDate localDate = LocalDate.parse(nationalDayInput, formatter);
+				  choosenCountry.setNationalDay(java.sql.Date.valueOf( localDate ));
+				  updateCountry(con,choosenCountry);
+				  
+				
+			}
 		}
 		
 		
@@ -65,7 +79,15 @@ public class Main {
 			psUpdateCountry.setString(5, choosenCountry.getCountryCode());	
 			psUpdateCountry.setString(6, choosenCountry.getCountryCode2());	
 			psUpdateCountry.setInt(7, choosenCountry.getRegionId());
+			psUpdateCountry.setInt(8, choosenCountry.getCountryId());
 			int result = psUpdateCountry.executeUpdate();
+			if(result == 1) {
+				System.out.println(result + " column changed");
+			}else if(result > 1) {
+				System.out.println(result + "columns have been changed");
+			}else {
+				System.out.println("No changes made");
+			}
 			
 		}
 	}
